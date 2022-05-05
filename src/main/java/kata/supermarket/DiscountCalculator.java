@@ -33,6 +33,7 @@ public class DiscountCalculator {
     public BigDecimal calculateAndRetrieveDiscount() { // calculates the total discount to apply
         BigDecimal discount = new BigDecimal("0");
         Set<Integer> productIds = getItemCountMap().keySet(); // retrieve list of all DISTINCT items
+        List<BigDecimal> onePoundItemPrices = new ArrayList<BigDecimal>();// list to cache prices of all seen instances with discount code 2 items
         for(Integer productId: productIds){ // traverses all distinct products
             //for maintainability, each set of metadata is retrieved from the 3 maps (for the DISTINCT product) and stored in visually readable variables
             BigDecimal itemPrice = getItemPriceMap().get(productId);
@@ -43,8 +44,15 @@ public class DiscountCalculator {
                     discount = discount.add(calculateBuyOneGetOneFreeDiscount(itemPrice, itemCount)); //BOGOF discount calculated and added to overall discount
                     break;
                 }
+                case 2:{ // discount code 2 - But two for 1 Pound
+                    for(int i = 0; i < itemCount; i++){ // repeats for each instance of a DISTINCT product
+                        onePoundItemPrices.add(itemPrice);// adds prices of all instances of discount code 2 items
+                    }
+                    break;
+                }
             }
         }
+        discount = discount.add(calculateBuyTwoItemsForOnePoundDiscount(onePoundItemPrices)); // B2F1 discount calculated and added to overall discount
         return discount;
     }
 
