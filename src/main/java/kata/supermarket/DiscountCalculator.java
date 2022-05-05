@@ -1,6 +1,7 @@
 package kata.supermarket;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,8 +36,15 @@ public class DiscountCalculator {
     }
 
 
-    public BigDecimal calculateBuyOneGetOneFreeDiscount(BigDecimal price, int count) {
-        return new BigDecimal("0");
+    public BigDecimal calculateBuyOneGetOneFreeDiscount(BigDecimal price, int count) { // calculates the BOGOF discount
+        BigDecimal sum;
+        if(count % 2 == 0){ // checks if the number of items are even
+            sum = price.multiply(new BigDecimal(count)); // uses the entire amount of items
+        } else{
+            sum = price.multiply(new BigDecimal(count - 1)); // uses one item less as another must be picked up for a further discount
+        }
+        sum = sum.divide(new BigDecimal(2), 2, RoundingMode.CEILING); //halves the total sum - this is how much discount will need to applied
+        return sum;
     }
 
     public void indexItemMetadataInMap(){ // This function will take all the items in the basket and map the correct metadata to the maps and counts the amount of each item
