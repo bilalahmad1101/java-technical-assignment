@@ -2,10 +2,7 @@ package kata.supermarket;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DiscountCalculator {
 
@@ -64,7 +61,19 @@ public class DiscountCalculator {
     }
 
     public BigDecimal calculateBuyTwoItemsForOnePoundDiscount(List<BigDecimal> priceList) {
-        return new BigDecimal(0);
+        BigDecimal subDiscount = new BigDecimal("0");
+        Collections.sort(priceList); //sorts prices from low to high
+        int endIndexOfList;
+        if(priceList.size() % 2 == 0){ // checks if list is even
+            endIndexOfList = priceList.size(); //uses whole list
+        }else{
+            endIndexOfList = priceList.size() - 1; //uses one item less from the whole list
+        }
+        for(int i = 0; i < endIndexOfList; i++){ // traverses prices
+            subDiscount=  subDiscount.add(priceList.get(i).subtract(new BigDecimal("0.50"))); //reduces the price by 0.5 and adds difference to the discount
+        }
+
+        return subDiscount;
     }
 
     public void indexItemMetadataInMap(){ // This function will take all the items in the basket and map the correct metadata to the maps and counts the amount of each item
