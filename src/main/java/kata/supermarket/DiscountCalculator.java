@@ -63,6 +63,10 @@ public class DiscountCalculator {
         return sum;
     }
 
+    public BigDecimal calculateBuyTwoItemsForOnePoundDiscount(List<BigDecimal> priceList) {
+        return new BigDecimal(0);
+    }
+
     public void indexItemMetadataInMap(){ // This function will take all the items in the basket and map the correct metadata to the maps and counts the amount of each item
         for(Item item: getBasket()){ // loops through all items in bucket
             if(getItemCountMap().get(item.getProductId()) == null && getItemDiscountMap().get(item.getDiscountCode()) == null){ // checks if product is not already in maps
@@ -91,4 +95,6 @@ public class DiscountCalculator {
     public HashMap<Integer, BigDecimal> getItemPriceMap() {
         return itemPriceMap;
     }
+
+
 }
