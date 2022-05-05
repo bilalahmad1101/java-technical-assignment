@@ -13,18 +13,18 @@ class WeighedProductTest {
 
     @ParameterizedTest
     @MethodSource
-    void itemFromWeighedProductHasExpectedUnitPrice(String pricePerKilo, String weightInKilos, String expectedPrice) {
-        final WeighedProduct weighedProduct = new WeighedProduct(new BigDecimal(pricePerKilo));
+    void itemFromWeighedProductHasExpectedUnitPrice(int productId, String pricePerKilo, String weightInKilos, String expectedPrice) {
+        final WeighedProduct weighedProduct = new WeighedProduct(productId, new BigDecimal(pricePerKilo), 0);
         final Item weighedItem = weighedProduct.weighing(new BigDecimal(weightInKilos));
-        assertEquals(new BigDecimal(expectedPrice), weighedItem.price());
+        assertEquals(new BigDecimal(expectedPrice), weighedItem.getPrice());
     }
 
     static Stream<Arguments> itemFromWeighedProductHasExpectedUnitPrice() {
         return Stream.of(
-                Arguments.of("100.00", "1.00", "100.00"),
-                Arguments.of("100.00", "0.33333", "33.33"),
-                Arguments.of("100.00", "0.33335", "33.34"),
-                Arguments.of("100.00", "0", "0.00")
+                Arguments.of(101, "100.00", "1.00", "100.00"),
+                Arguments.of(102, "100.00", "0.33333", "33.33"),
+                Arguments.of(102, "100.00", "0.33335", "33.34"),
+                Arguments.of(103, "100.00", "0", "0.00")
         );
     }
 

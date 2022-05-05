@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,7 +30,9 @@ class BasketTest {
                 aSingleItemPricedPerUnit(),
                 multipleItemsPricedPerUnit(),
                 aSingleItemPricedByWeight(),
-                multipleItemsPricedByWeight()
+                multipleItemsPricedByWeight(),
+                buyOneGetOneFreeDiscountAppliedWithTwoItems(),
+                buyOneGetOneFreeDiscountAppliedWithThreeItems()
         );
     }
 
@@ -56,16 +59,35 @@ class BasketTest {
         return Arguments.of("no items", "0.00", Collections.emptyList());
     }
 
+    private static Arguments buyOneGetOneFreeDiscountAppliedWithTwoItems() { // This will vaidate BOGOF dicount works with even amount of items
+        return Arguments.of("buy one get one free discount applied", "0.49", twoSinglePintsOfMilkBuyOneGetOneFree());
+    }
+
+    private static Arguments buyOneGetOneFreeDiscountAppliedWithThreeItems() { //This will vaidate BOGOF dicount works with odd amount of items
+        return Arguments.of("buy one get one free discount applied", "0.49", threeSinglePintsOfMilkBuyOneGetOneFree());
+    }
+
     private static Item aPintOfMilk() {
-        return new Product(new BigDecimal("0.49")).oneOf();
+        return new Product(101 , new BigDecimal("0.49"), 0).oneOf();
+    }
+
+    private static List<Item> twoSinglePintsOfMilkBuyOneGetOneFree(){
+        return Arrays.asList(new Product(101, new BigDecimal("0.49"), 1).oneOf(),
+                new Product(101, new BigDecimal("0.49"), 1).oneOf());
+    }
+
+    private static List<Item> threeSinglePintsOfMilkBuyOneGetOneFree(){
+        return Arrays.asList(new Product(101, new BigDecimal("0.49"), 1).oneOf(),
+                new Product(101, new BigDecimal("0.49"), 1).oneOf(),
+                new Product(101, new BigDecimal("0.49"), 1).oneOf());
     }
 
     private static Item aPackOfDigestives() {
-        return new Product(new BigDecimal("1.55")).oneOf();
+        return new Product(102, new BigDecimal("1.55"), 0).oneOf();
     }
 
     private static WeighedProduct aKiloOfAmericanSweets() {
-        return new WeighedProduct(new BigDecimal("4.99"));
+        return new WeighedProduct(103, new BigDecimal("4.99"), 0);
     }
 
     private static Item twoFiftyGramsOfAmericanSweets() {
@@ -73,7 +95,7 @@ class BasketTest {
     }
 
     private static WeighedProduct aKiloOfPickAndMix() {
-        return new WeighedProduct(new BigDecimal("2.99"));
+        return new WeighedProduct(104, new BigDecimal("2.99"), 0);
     }
 
     private static Item twoHundredGramsOfPickAndMix() {
