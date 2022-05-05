@@ -64,7 +64,7 @@ class BasketTest {
     }
 
     private static Arguments buyOneGetOneFreeDiscountAppliedWithThreeItems() { //This will vaidate BOGOF dicount works with odd amount of items
-        return Arguments.of("buy one get one free discount applied", "0.49", threeSinglePintsOfMilkBuyOneGetOneFree());
+        return Arguments.of("buy one get one free discount applied", "0.98", threeSinglePintsOfMilkBuyOneGetOneFree());
     }
 
     private static Item aPintOfMilk() {
